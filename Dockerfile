@@ -39,11 +39,17 @@ RUN git clone --depth=1 https://github.com/ggerganov/llama.cpp.git ${LLAMA_DIR} 
     && cd ${LLAMA_DIR} \
     && cmake -B build -DLLAMA_BUILD_SERVER=OFF -DBUILD_SHARED_LIBS=OFF \
     && cmake --build build --config Release -j$(nproc) \
-    && BIN=$(find ${LLAMA_DIR}/build/bin -type f \( -name "llama-cli" -o -name "main" \) | head -1) \
-    && echo "Found llama binary: $BIN" \
+    && echo "--- binaries built ---" \
+    && find ${LLAMA_DIR}/build -type f -name "llama-cli" \
+    && BIN=$(find ${LLAMA_DIR}/build -type f -name "llama-cli" | head -1) \
+    && if [ -z "$BIN" ]; then BIN=$(find ${LLAMA_DIR}/build -type f -name "llama-run" | head -1); fi \
+    && if [ -z "$BIN" ]; then BIN=$(find ${LLAMA_DIR}/build -type f -name "llama-simple" | head -1); fi \
+    && if [ -z "$BIN" ]; then BIN=$(find ${LLAMA_DIR}/build -type f -name "main" | head -1); fi \
+    && echo "Selected binary: $BIN" \
+    && test -n "$BIN" \
     && cp "$BIN" /usr/local/bin/llama-cli \
     && chmod +x /usr/local/bin/llama-cli \
-    && echo "llama-cli installed OK"
+    && echo "llama-cli installed at $(which llama-cli)"
 
 # ─────────────────────────────────────────────
 # 3. NODE PROJECT SCAFFOLD
