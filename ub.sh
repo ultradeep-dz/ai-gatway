@@ -6,7 +6,7 @@
 # ============================================================
 # HOW TO USE:
 #   1. Open Termux on your Android phone
-#   2. Run: curl -sL https://raw.githubusercontent.com/... | bash
+#   2. Run: curl -sL https://raw.githubusercontent.com/ultradeep-dz/ai-gatway/refs/heads/main/ub.sh | bash
 #      OR copy this file to Termux and run: bash termux_setup.sh
 # ============================================================
 
